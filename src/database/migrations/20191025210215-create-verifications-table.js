@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   up: (queryInterface, Sequelize) => queryInterface.createTable('Verifications', {
     id: {
       type: Sequelize.UUID,

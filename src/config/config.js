@@ -1,8 +1,8 @@
 /* eslint-disable quotes */
 /* eslint-disable quote-props */
-import { config } from 'dotenv';
+const dotenv = require('dotenv');
 
-config();
+dotenv.config();
 
 module.exports = {
   development: {

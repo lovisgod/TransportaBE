@@ -7,7 +7,7 @@
     "test": "nyc mocha --no-timeout './tests' --exit",
     "test:report": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text-summary mocha --timeout 5000 './tests' --exit",
     "coverage": "cross-env NODE_ENV=test nyc npm run test && nyc report --reporter=lcov --reporter=text-lcov --exit",
-    "dev": "nodemon --exec babel-node src/index.js",
+    "dev": "nodemon --exec babel-node bin/www",
     "build": "babel src --out-dir build",
     "db:migrate": "./node_modules/.bin/sequelize db:migrate",
     "migrate": "./node_modules/.bin/sequelize db:migrate",

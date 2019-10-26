@@ -10,9 +10,6 @@ export default (sequelize, DataTypes) => {
     numbertoken: {
       type: DataTypes.STRING,
     },
-    createdAT: {
-      type: 'TIMESTAMP',
-    },
   }, {
     timestamps: false,
     freezeTableName: true,
