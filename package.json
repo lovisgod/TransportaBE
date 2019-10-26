@@ -1,0 +1,72 @@
+{
+  "name": "trasportabe",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www",
+    "test": "nyc mocha --no-timeout './tests' --exit",
+    "test:report": "cross-env NODE_ENV=test nyc --reporter=lcov --reporter=text-summary mocha --timeout 5000 './tests' --exit",
+    "coverage": "cross-env NODE_ENV=test nyc npm run test && nyc report --reporter=lcov --reporter=text-lcov --exit",
+    "dev": "nodemon --exec babel-node src/index.js",
+    "build": "babel src --out-dir build",
+    "db:migrate": "./node_modules/.bin/sequelize db:migrate",
+    "migrate": "./node_modules/.bin/sequelize db:migrate",
+    "undo": "./node_modules/.bin/sequelize db:migrate:undo:all",
+    "seed": "./node_modules/.bin/sequelize db:seed:all",
+    "init:db": "./node_modules/.bin/sequelize init"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "morgan": "~1.9.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "cross-env": "^5.2.0",
+    "cloudinary": "^1.14.0",
+    "multer": "^1.4.1",
+    "datauri": "^2.0.0",
+    "dotenv": "^8.1.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "nodemailer": "^6.3.0",
+    "pg": "^7.12.1",
+    "sequelize": "^5.19.3",
+    "sequelize-cli": "^5.5.1",
+    "socket.io": "^2.2.0",
+    "uuid": "^3.3.3",
+    "uuid-by-string": "^2.1.5"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.6.2",
+    "@babel/core": "^7.6.2",
+    "@babel/node": "^7.6.2",
+    "@babel/preset-env": "^7.6.2",
+    "@babel/register": "^7.6.2",
+    "babel-eslint": "^10.0.3",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "coveralls": "^3.0.6",
+    "eslint": "^6.5.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
+    "mocha": "^6.2.0",
+    "nodemon": "^1.19.3",
+    "nyc": "^14.1.1"
+  },
+  "nyc": {
+    "exclude": [
+      "src/models/index.js",
+      "tests",
+      "node_modules"
+    ],
+    "require": [
+      "@babel/register"
+    ],
+    "sourceMap": false,
+    "cache": false,
+    "report-dir": "tests/report"
+  }
+}
