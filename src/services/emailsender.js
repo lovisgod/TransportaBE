@@ -1,7 +1,7 @@
 import { transporter } from '../config/nodemailer-config';
 
 const SendMail = (to, token, id) => {
-  const hostUrl = 'mediamall.herokuapp.com';
+  const hostUrl = 'transportabe.herokuapp.com';
   const mailOptions = {
     from: 'mediamall@kodehauz.com',
     to,

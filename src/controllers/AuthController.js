@@ -7,6 +7,9 @@ import { generateErrorMessage, generateSuccessMessage, generateSuccessData } fro
 import { createToken, verifyToken } from '../utils/processToken';
 import uploadImage from '../services/imageUploader';
 import randomNumberGen from '../utils/randomNumberGen';
+import {
+  inValidInput, inValidEmail, inValidPassword, inValidName, validate,
+} from '../utils/validator';
 
 const { User, Verifications } = model;
 /**
@@ -22,6 +25,18 @@ const AuthController = {
       const {
         username, email, password, name, phone, role,
       } = req.body;
+      const schema = {
+        username: inValidInput(username),
+        email: inValidEmail(email),
+        password: inValidPassword(password),
+        name: inValidInput(name),
+        phone: inValidInput(phone),
+        role: inValidInput(role),
+      };
+      const error = validate(schema);
+      if (error) {
+        return res.status(409).send(generateErrorMessage('Error', error));
+      }
       const user = await User.findOne({ where: { email } });
       if (user) {
         return res.status(409).send(generateErrorMessage('Error', 'User already exist'));
@@ -54,6 +69,14 @@ const AuthController = {
 
   async signIn(req, res, next) {
     const { email, username, password } = req.body;
+    const schema = {
+      username: email ? inValidInput(email) : inValidEmail(username),
+      password: inValidPassword(password),
+    };
+    const error = validate(schema);
+    if (error) {
+      return res.status(409).send(generateErrorMessage('Error', error));
+    }
     try {
       const user = email
         ? await User.findOne({ where: { email } })
