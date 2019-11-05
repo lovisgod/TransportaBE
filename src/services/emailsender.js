@@ -5,8 +5,8 @@ const SendMail = (to, token, id) => {
   const mailOptions = {
     from: 'mediamall@kodehauz.com',
     to,
-    subject: 'Thank you for choosing MediaMall',
-    text: `Click on this link to verify your email ${hostUrl}/api/v1/auth/verification?token=${token}&email=${to}&id=${id}`,
+    subject: 'Thank you for choosing Transporta',
+    text: `Click on this link to verify your email ${hostUrl}/api/v1/auth/verify?token=${token}&email=${to}&id=${id}`,
   };
 
   transporter.sendMail(mailOptions, (error, info) => {
