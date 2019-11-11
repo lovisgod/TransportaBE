@@ -3,6 +3,11 @@ const generateErrorMessage = (status, message) => ({
   status,
   message,
 });
+
+const generateErrorData = (status, data) => ({
+  status,
+  data,
+});
 const generateSuccessMessage = (status, message) => ({
   status,
   message,
@@ -15,4 +20,5 @@ export {
   generateErrorMessage,
   generateSuccessMessage,
   generateSuccessData,
+  generateErrorData,
 };

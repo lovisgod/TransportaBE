@@ -3,7 +3,7 @@ import { Op } from 'sequelize';
 import model from '../models';
 import SendMail from '../services/emailsender';
 import { hashPassword, comparePassword } from '../utils/passwordHash';
-import { generateErrorMessage, generateSuccessMessage, generateSuccessData } from '../utils/messages';
+import { generateErrorMessage, generateSuccessMessage, generateSuccessData, generateErrorData } from '../utils/messages';
 import { createToken, verifyToken } from '../utils/processToken';
 import uploadImage from '../services/imageUploader';
 import randomNumberGen from '../utils/randomNumberGen';
@@ -84,7 +84,7 @@ const AuthController = {
       if (!user) return res.status(404).send(generateErrorMessage('Error', 'User not found'));
       const checkPassword = comparePassword(password, user.dataValues.password);
       if (!checkPassword) {
-        return res.status(400).send(generateErrorMessage('Error', 'Details incorect'));
+        return res.status(400).send(generateErrorData('Error', 'Details incorect'));
       }
       if (!user.dataValues.verified) {
         return res.status(401).send(generateErrorMessage('Error', 'Verify your account'));
