@@ -7,6 +7,7 @@ const multer = require('multer');
 
 const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
+const rideRouter = require('./routes/ride');
 
 const app = express();
 const upload = multer();
@@ -16,7 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-app.use('/api/v1/', [indexRouter, usersRouter]);
+app.use('/api/v1/', [indexRouter, usersRouter, rideRouter]);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

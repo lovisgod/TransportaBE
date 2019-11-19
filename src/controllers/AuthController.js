@@ -1,9 +1,11 @@
 import token from 'uuid';
 import { Op } from 'sequelize';
 import model from '../models';
-import SendMail from '../services/emailsender';
+import { SendMail } from '../services/emailsender';
 import { hashPassword, comparePassword } from '../utils/passwordHash';
-import { generateErrorMessage, generateSuccessMessage, generateSuccessData, generateErrorData } from '../utils/messages';
+import {
+  generateErrorMessage, generateSuccessMessage, generateSuccessData, generateErrorData,
+} from '../utils/messages';
 import { createToken, verifyToken } from '../utils/processToken';
 import uploadImage from '../services/imageUploader';
 import randomNumberGen from '../utils/randomNumberGen';

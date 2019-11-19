@@ -10,7 +10,12 @@ export default async (req, res, next) => {
     if (!req.headers.authorization) return res.status(401).send(generateErrorMessage('Error', 'Authentication required'));
     const token = req.headers.authorization.split(' ')[1] || req.headers.authorization;
     const { user } = verifyToken(token);
-    const auser = await User.findOne({ where: { email: user.email } });
+    const auser = await User.findOne({
+      where: { email: user.email },
+      attributes: {
+        exclude: ['password', 'createdAt', 'updatedAt'],
+      },
+    });
     if (!auser) return res.status(401).send(generateErrorMessage('Error', 'User does not exist'));
     req.userData = auser.dataValues;
     next();
