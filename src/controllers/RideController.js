@@ -51,7 +51,23 @@ const RideController = {
           exclude: ['uuid', 'password', 'createdAt', 'updatedAt'],
         },
       });
-      const details = { ride: dataValues, user: req.userData, driver: driver ? driver.dataValues : '' };
+      const details = {
+        ride: dataValues,
+        user: req.userData,
+        driver: driver ? driver.dataValues : {
+          uuid: '',
+          name: '',
+          username: '',
+          email: '',
+          phone: '',
+          facebook_id: '',
+          google_id: '',
+          verified: '',
+          location: '',
+          role: '',
+          status: '',
+        },
+      };
       return res.status(200).send(generateSuccessData('Success', details));
     } catch (e) {
       console.log(e);

@@ -21,6 +21,6 @@ export default async (req, res, next) => {
     next();
   } catch (err) {
     const error = err.message ? 'Authentication Failed' : err;
-    next(error);
+    return res.status(401).send(generateErrorMessage('Error', error));
   }
 };
