@@ -67,6 +67,10 @@ export const inValidInput = (text) => {
   if (!/^.{4,100}$/.test(text)) return 'text should be minimum of 5 characters and maximum of 100';
 };
 
+export const emptyInput = (text) => {
+  if (!text) return 'Input invalid, field cannot be empty';
+};
+
 export const validate = (obj) => {
   const result = {};
   Object.keys(obj).forEach((key) => {
