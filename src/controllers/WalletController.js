@@ -14,10 +14,10 @@ const WalletController = {
   async listBanks(req, res) {
     try {
       const banks = await getBanks();
-      if (banks) return generateSuccessData(res, 200, banks);
+      if (banks) return res.status(200).send(generateSuccessData('Success', banks));
     } catch (e) {
       console.log(e);
-      return generateErrorData(res, 500, 'An error occured please try again');
+      return res.status(500).send(generateErrorData('Error', 'An error occured please try again'));
     }
   },
   // verify account number using paystack
@@ -29,13 +29,13 @@ const WalletController = {
         code: emptyInput(code),
       };
       const error = validate(schema);
-      if (error) return generateErrorData(res, 422, error);
+      if (error) return res.status(422).send(generateErrorData('Error', error));
       const account = await verifyAccount(account_number, code);
-      if (account.account_number === '') return generateErrorData(res, 404, account.account_name);
-      return generateSuccessData(res, 200, account.account_name);
+      if (account.account_number === '') return res.status(500).send(generateErrorData('Error', account.account_name));
+      return res.status(200).send(generateSuccessData('Success', account.account_name));
     } catch (e) {
       console.log(e);
-      return generateErrorData(res, 500, 'An error occured please try again');
+      return res.status(500).send(generateErrorData('Error', 'An error occured please try again'));
     }
   },
   // create a wallet for a user
@@ -48,9 +48,9 @@ const WalletController = {
         code: emptyInput(bank_code),
       };
       const error = validate(schema);
-      if (error) return generateErrorData(res, 422, error);
+      if (error) return res.status(422).send(generateErrorData('Error', error));
       const recipient_id = await createRecipient('nuban', name, role, account_number, bank_code, 'NGN');
-      if (recipient_id === 'error') return generateErrorData(res, 500, 'An error occured please try again!!!');
+      if (recipient_id === 'error') return res.status(500).send(generateErrorData('Error', 'An error occured please try again'));
       const wallet = await Wallet.create({
         user_uuid: uuid,
         balance: 0.0,
@@ -60,10 +60,10 @@ const WalletController = {
         where: { uuid: wallet.uuid },
         attributes: { exclude: ['refrence_id'] },
       });
-      return generateSuccessData(res, 200, createdWallet);
+      return res.status(200).send(generateSuccessData('Success', createdWallet));
     } catch (e) {
       console.log(e);
-      return generateErrorData(res, 500, 'An error occured please try again!!!');
+      return res.status(500).send(generateErrorData('Error', 'An error occured please try again'));
     }
   },
   // user load wallet
@@ -82,21 +82,21 @@ const WalletController = {
         cardOwnerEmail: emptyInput(cardOwnerEmail),
       };
       const error = validate(schema);
-      if (error) return generateErrorMessage(res, 422, error);
+      if (error) return res.status(422).send(generateErrorMessage('Error', error));
       const authorization_code = await tokenize({
         cvv, expiry_month, expiry_year, number,
       }, cardOwnerEmail);
-      if (authorization_code === 'error') return generateErrorMessage(res, 500, 'An error occured please try again!!!');
+      if (authorization_code === 'error') return res.status(500).send(generateErrorMessage('Error', 'An error occured please try again'));
       const paymentStatus = await charge(amount, cardOwnerEmail, authorization_code, name);
-      if (paymentStatus === 'error') return generateErrorMessage(res, 500, 'An error occured please try again!!!');
+      if (paymentStatus === 'error') return res.status(500).send(generateErrorMessage('Error', 'An error occured please try again'));
       await Wallet.update(
         { balance: amount },
         { where: { user_uuid: uuid } },
       );
-      return generateSuccessMessage(res, 200, `wallet loaded ${paymentStatus}fully`);
+      return res.status(200).send(generateSuccessMessage('Success', `wallet loaded ${paymentStatus}fully`));
     } catch (e) {
       console.log(e);
-      return generateErrorMessage(res, 500, 'An error occured please try again!!!');
+      return res.status(500).send(generateErrorMessage('Error', 'An error occured please try again'));
     }
   },
 };

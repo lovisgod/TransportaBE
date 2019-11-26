@@ -1,4 +1,5 @@
 import authcontroller from '../controllers/AuthController';
+import WalletController from '../controllers/WalletController';
 import auth from '../middlewares/Auth';
 
 const express = require('express');
@@ -12,5 +13,9 @@ router.put('/auth/verify', authcontroller.verify);
 router.put('/users/get-new-email', authcontroller.getNewEmailTOken);
 router.put('/users/update-profile', auth, authcontroller.updateProfile);
 router.put('/users/reset-pass', authcontroller.resetPassword);
+router.get('/wallet/list-banks', auth, WalletController.listBanks);
+router.post('/wallet/verify-account', auth, WalletController.verifyAccountNumber);
+router.post('/wallet/create-wallet', auth, WalletController.createWallet);
+router.post('/wallet/load-wallet', auth, WalletController.loadWallet);
 
 module.exports = router;
