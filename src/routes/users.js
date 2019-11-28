@@ -17,5 +17,6 @@ router.get('/wallet/list-banks', auth, WalletController.listBanks);
 router.post('/wallet/verify-account', auth, WalletController.verifyAccountNumber);
 router.post('/wallet/create-wallet', auth, WalletController.createWallet);
 router.post('/wallet/load-wallet', auth, WalletController.loadWallet);
+router.get('/user/get-wallet-balance', auth, WalletController.getBalance);
 
 module.exports = router;

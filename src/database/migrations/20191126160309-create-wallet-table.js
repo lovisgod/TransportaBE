@@ -7,7 +7,9 @@ export default {
       defaultValue: Sequelize.UUIDV4,
     },
     user_uuid: {
+      allowNull: false,
       type: Sequelize.UUID,
+      unique: true,
     },
     balance: {
       type: Sequelize.FLOAT,

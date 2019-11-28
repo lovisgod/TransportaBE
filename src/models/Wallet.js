@@ -5,7 +5,10 @@ export default (sequelize, DataTypes) => {
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    user_uuid: DataTypes.UUID,
+    user_uuid: {
+      type: DataTypes.UUID,
+      unique: true,
+    },
     balance: DataTypes.FLOAT,
     refrence_id: DataTypes.STRING,
   }, {});

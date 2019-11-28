@@ -62,7 +62,7 @@ const WalletController = {
       });
       return res.status(200).send(generateSuccessData('Success', createdWallet));
     } catch (e) {
-      console.log(e);
+      console.error(e.message);
       return res.status(500).send(generateErrorData('Error', 'An error occured please try again'));
     }
   },
@@ -97,6 +97,21 @@ const WalletController = {
     } catch (e) {
       console.log(e);
       return res.status(500).send(generateErrorMessage('Error', 'An error occured please try again'));
+    }
+  },
+
+  async getBalance(req, res) {
+    try {
+      const { uuid } = req.userData;
+      const wallet = await Wallet.findOne({
+        where: { user_uuid: uuid },
+        attributes: { exclude: ['refrence_id', 'createdAt', 'updatedAt', 'uuid', 'user_uuid'] },
+      });
+      if (!wallet) return res.status(404).send(generateErrorData('Error', 'Wallet not found for this user'));
+      return res.status(200).send(generateSuccessData('Success', wallet));
+    } catch (error) {
+      console.log(error);
+      return res.status(500).send(generateErrorData('Error', error.message));
     }
   },
 };
