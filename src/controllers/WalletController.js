@@ -108,7 +108,7 @@ const WalletController = {
         attributes: { exclude: ['refrence_id', 'createdAt', 'updatedAt', 'uuid', 'user_uuid'] },
       });
       if (!wallet) return res.status(404).send(generateErrorData('Error', 'Wallet not found for this user'));
-      return res.status(200).send(generateSuccessData('Success', wallet));
+      return res.status(200).send(generateSuccessData('Success', wallet.balance));
     } catch (error) {
       console.log(error);
       return res.status(500).send(generateErrorData('Error', error.message));
