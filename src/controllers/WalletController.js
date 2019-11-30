@@ -58,7 +58,7 @@ const WalletController = {
       });
       const createdWallet = await Wallet.findOne({
         where: { uuid: wallet.uuid },
-        attributes: { exclude: ['refrence_id'] },
+        attributes: { exclude: ['refrence_id', 'createdAt', 'updatedAt', 'user_uuid'] },
       });
       return res.status(200).send(generateSuccessData('Success', createdWallet));
     } catch (e) {
