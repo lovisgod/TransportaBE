@@ -69,9 +69,11 @@ const WalletController = {
   // user load wallet
   async loadWallet(req, res) {
     try {
-      const { uuid, role, name } = req.userData;
       const {
-        amount, cvv, expiry_month, expiry_year, number, cardOwnerEmail,
+        uuid, role, name, email,
+      } = req.userData;
+      const {
+        amount, cvv, expiry_month, expiry_year, number,
       } = req.body;
       const schema = {
         ammount: emptyInput(amount),
@@ -79,15 +81,14 @@ const WalletController = {
         expiry_month: emptyInput(expiry_month),
         expiry_year: emptyInput(expiry_year),
         number: emptyInput(number),
-        cardOwnerEmail: emptyInput(cardOwnerEmail),
       };
       const error = validate(schema);
       if (error) return res.status(422).send(generateErrorMessage('Error', error));
       const authorization_code = await tokenize({
         cvv, expiry_month, expiry_year, number,
-      }, cardOwnerEmail);
+      }, email);
       if (authorization_code === 'error') return res.status(500).send(generateErrorMessage('Error', 'An error occured please try again'));
-      const paymentStatus = await charge(amount, cardOwnerEmail, authorization_code, name);
+      const paymentStatus = await charge(amount, email, authorization_code, name);
       if (paymentStatus === 'error') return res.status(500).send(generateErrorMessage('Error', 'An error occured please try again'));
       await Wallet.update(
         { balance: amount },
