@@ -95,7 +95,6 @@ const WalletController = {
       });
       if (!presentBalance) return res.status(404).send(generateErrorMessage('Error', 'Wallet not found'));
       const futureBalance = await parseInt(presentBalance.balance, 10) + parseInt(amount, 10);
-      console.log(futureBalance);
       await Wallet.update(
         { balance: futureBalance },
         { where: { user_uuid: uuid } },
@@ -119,6 +118,27 @@ const WalletController = {
     } catch (error) {
       console.log(error);
       return res.status(500).send(generateErrorData('Error', error.message));
+    }
+  },
+
+  async chargeRide(req, res) {
+    try {
+      const { price } = req.body;
+      const { uuid } = req.userData;
+      const wallet = await Wallet.findOne({
+        where: { user_uuid: uuid },
+        attributes: { exclude: ['refrence_id', 'createdAt', 'updatedAt', 'uuid', 'user_uuid'] },
+      });
+      if (!wallet) return res.status(404).send(generateErrorData('Error', 'Wallet not found for this user'));
+      const resultingBalance = await parseInt(wallet.balance, 10) - parseInt(price, 10);
+      await Wallet.update(
+        { balance: resultingBalance },
+        { where: { user_uuid: uuid } },
+      );
+      return res.status(200).send(generateSuccessMessage('Success', 'ride charged successfully'));
+    } catch (e) {
+      console.log(e.message);
+      return res.status(500).send(generateErrorMessage('Error', e.message));
     }
   },
 };
