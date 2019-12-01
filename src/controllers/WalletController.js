@@ -90,8 +90,14 @@ const WalletController = {
       if (authorization_code === 'error') return res.status(500).send(generateErrorMessage('Error', 'An error occured please try again'));
       const paymentStatus = await charge(amount, email, authorization_code, name);
       if (paymentStatus === 'error') return res.status(500).send(generateErrorMessage('Error', 'An error occured please try again'));
+      const presentBalance = await Wallet.findOne({
+        where: { user_uuid: uuid },
+      });
+      if (!presentBalance) return res.status(404).send(generateErrorMessage('Error', 'Wallet not found'));
+      const futureBalance = await parseInt(presentBalance.balance, 10) + parseInt(amount, 10);
+      console.log(futureBalance);
       await Wallet.update(
-        { balance: amount },
+        { balance: futureBalance },
         { where: { user_uuid: uuid } },
       );
       return res.status(200).send(generateSuccessMessage('Success', `wallet loaded ${paymentStatus}fully`));
