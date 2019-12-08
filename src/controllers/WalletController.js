@@ -64,8 +64,7 @@ const WalletController = {
       return res.status(200).send(generateSuccessData('Success', createdWallet));
     } catch (e) {
       console.error(e.message);
-      createdWallet.balance = 'An error occured please try again';
-      return res.status(500).send(generateErrorData('Error', createdWallet));
+      return res.status(500).send(generateErrorData('Error', { balance: 'An error occured please try again' }));
     }
   },
   // user load wallet
