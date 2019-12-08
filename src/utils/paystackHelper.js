@@ -65,7 +65,7 @@ const createRecipient = async (type, name, description, account_number, bank_cod
     return data.recipient_code;
   } catch (e) {
     console.log(e.error);
-    return `error ${e.error.message}`;
+    return `error, ${e.error.message}`;
   }
 };
 
