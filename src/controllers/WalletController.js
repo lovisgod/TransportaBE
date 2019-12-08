@@ -51,7 +51,7 @@ const WalletController = {
       const error = validate(schema);
       if (error) return res.status(422).send(generateErrorData('Error', error));
       const recipient_id = await createRecipient('nuban', name, role, account_number, bank_code, 'NGN');
-      if (recipient_id.includes('error')) return res.status(500).send(generateErrorData('Error', 'An error occured please try again'));
+      if (recipient_id.includes('error')) return res.status(500).send(generateErrorData('Error', { balance: recipient_id.split(' ')[1] }));
       const wallet = await Wallet.create({
         user_uuid: uuid,
         balance: 0.0,
