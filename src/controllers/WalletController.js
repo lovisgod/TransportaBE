@@ -40,6 +40,7 @@ const WalletController = {
   },
   // create a wallet for a user
   async createWallet(req, res) {
+    let createdWallet;
     try {
       const { uuid, name, role } = req.userData;
       const { account_number, bank_code } = req.body;
@@ -50,20 +51,21 @@ const WalletController = {
       const error = validate(schema);
       if (error) return res.status(422).send(generateErrorData('Error', error));
       const recipient_id = await createRecipient('nuban', name, role, account_number, bank_code, 'NGN');
-      if (recipient_id === 'error') return res.status(500).send(generateErrorData('Error', 'An error occured please try again'));
+      if (recipient_id.includes('error')) return res.status(500).send(generateErrorData('Error', 'An error occured please try again'));
       const wallet = await Wallet.create({
         user_uuid: uuid,
         balance: 0.0,
         refrence_id: recipient_id,
       });
-      const createdWallet = await Wallet.findOne({
+      createdWallet = await Wallet.findOne({
         where: { uuid: wallet.uuid },
         attributes: { exclude: ['refrence_id', 'createdAt', 'updatedAt', 'user_uuid'] },
       });
       return res.status(200).send(generateSuccessData('Success', createdWallet));
     } catch (e) {
       console.error(e.message);
-      return res.status(500).send(generateErrorData('Error', 'An error occured please try again'));
+      createdWallet.balance = 'An error occured please try again';
+      return res.status(500).send(generateErrorData('Error', createdWallet));
     }
   },
   // user load wallet
