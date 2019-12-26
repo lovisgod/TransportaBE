@@ -38,6 +38,14 @@ module.exports = {
       values: ['booked', 'accepted', 'completed', 'canceled'],
       defaultValue: 'booked',
     },
+    trip_rounds: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
+    time: {
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
     createdAt: {
       allowNull: false,
       type: Sequelize.DATE,

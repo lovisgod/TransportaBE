@@ -11,7 +11,7 @@ const RideController = {
   async createRide(req, res) {
     try {
       const {
-        pickup, destination, price, distance, payment_method,
+        pickup, destination, price, distance, payment_method, trip_rounds, time,
       } = req.body;
       const {
         uuid, email, phone, name,
@@ -23,9 +23,11 @@ const RideController = {
         price,
         distance,
         payment_method,
+        trip_rounds,
+        time,
       });
       await SendRideMail(name, {
-        email, price, phone, pickup, destination, payment_method,
+        email, price, phone, pickup, destination, payment_method, trip_rounds, time,
       });
       if (!ride) return res.status(500).send(generateErrorMessage('Error', 'Ride request was not successfully created'));
       return res.status(200).send(generateSuccessMessage('Success', 'Ride request successfully created'));

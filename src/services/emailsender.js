@@ -19,13 +19,13 @@ const SendMail = (to, token, id) => {
 
 const SendRideMail = (name, details) => {
   const {
-    email, price, phone, pickup, destination, paymentMethod,
+    email, price, phone, pickup, destination, paymentMethod, trip_rounds, time,
   } = details;
   const mailOptions = {
     from: 'admin@transporta.com.ng',
     to: 'admin@transporta.com.ng',
     subject: `${name} just made an order`,
-    text: `Check the details of the ride below \n\nemail -> ${email}\nmobile no -> ${phone}\nprice -> ${price}\npickup -> ${pickup}\ndestination -> ${destination}}\n payment-method -> ${paymentMethod}`,
+    text: `Check the details of the ride below \n\nemail -> ${email}\nmobile no -> ${phone}\nprice -> ${price}\npickup -> ${pickup}\ndestination -> ${destination}}\n payment-method -> ${paymentMethod}\n trip_rounds -> ${trip_rounds}\n time -> ${time}`,
   };
 
   transporter.sendMail(mailOptions, (error, info) => {

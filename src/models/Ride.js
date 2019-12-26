@@ -16,6 +16,8 @@ export default (sequelize, DataTypes) => {
       type: DataTypes.ENUM('booked', 'accepted', 'completed', 'canceled'),
       defaultValue: 'booked',
     },
+    trip_rounds: DataTypes.STRING,
+    time: DataTypes.STRING,
   }, {});
   Ride.associate = (models) => {
     // Ride.belongsTo(models.User, {
