@@ -115,7 +115,7 @@ const charge = async (amount, email, authorization_code, name) => {
       uri: `${apiUrl}/charge`,
       body: {
         email,
-        amount,
+        amount: parseInt(amount, 10) * 100,
         metadata,
         authorization_code,
       },

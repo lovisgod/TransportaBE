@@ -25,7 +25,7 @@ const RideController = {
         payment_method,
       });
       await SendRideMail(name, {
-        email, price, phone, pickup, destination,
+        email, price, phone, pickup, destination, payment_method,
       });
       if (!ride) return res.status(500).send(generateErrorMessage('Error', 'Ride request was not successfully created'));
       return res.status(200).send(generateSuccessMessage('Success', 'Ride request successfully created'));
