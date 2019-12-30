@@ -4,6 +4,7 @@ import { SendRideMail } from '../services/emailsender';
 import {
   generateErrorMessage, generateSuccessMessage, generateSuccessData, generateErrorData,
 } from '../utils/messages';
+import { getRoute } from '../utils/routing';
 
 const { User, Ride } = model;
 
@@ -91,6 +92,29 @@ const RideController = {
     } catch (e) {
       console.log(e);
       return res.status(500).send(generateErrorData('Error', 'Error while fetching ride requests'));
+    }
+  },
+
+  // get routing between destinations
+  async getRouting(req, res) {
+    try {
+      const {
+        pickLng, pickLat, destLng, destLat,
+      } = req.body;
+      if (pickLat === '' || pickLng === '' || destLng === '' || destLat === '') {
+        return res.status(500).send(generateErrorData('Error', 'Error while getting route between locations please check your input'));
+      }
+      const pickup = `${pickLat},${pickLng}`;
+      const destination = `${destLat},${destLng}`;
+      const points = await getRoute(pickup, destination);
+      const coordinateArray = await points.map((data) => ({
+        lat: data.position.latitude,
+        lng: data.position.longitude,
+      }));
+      return res.status(200).send(generateSuccessData('Success', coordinateArray));
+    } catch (e) {
+      console.log(e);
+      return res.status(500).send(generateErrorData('Error', 'Error while getting route between locations'));
     }
   },
 };
