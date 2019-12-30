@@ -18,7 +18,8 @@ const getRoute = async (pickup, destination) => {
       },
       json: true,
     };
-    const { data } = await rp(options);
+    const data = await rp(options);
+    console.log(data);
     if (data) return data.response.route[0].leg[0].maneuver;
   } catch (e) {
     console.log(e);
