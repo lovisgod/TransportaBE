@@ -131,7 +131,9 @@ const WalletController = {
         attributes: { exclude: ['refrence_id', 'createdAt', 'updatedAt', 'uuid', 'user_uuid'] },
       });
       if (!wallet) return res.status(404).send(generateErrorData('Error', 'Wallet not found for this user'));
+      if (wallet.balance <= 50) return res.status(500).send(generateErrorData('Error', 'Low balance please load your wallet and try again'));
       const resultingBalance = await parseInt(wallet.balance, 10) - parseInt(price, 10);
+      if (resultingBalance < 0) return res.status(500).send(generateErrorData('Error', 'Low balance please load your wallet and try again'));
       await Wallet.update(
         { balance: resultingBalance },
         { where: { user_uuid: uuid } },
