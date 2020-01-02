@@ -63,7 +63,7 @@ const WalletController = {
       });
       return res.status(200).send(generateSuccessData('Success', createdWallet));
     } catch (e) {
-      console.error(e.message);
+      console.error(e);
       return res.status(500).send(generateErrorData('Error', { uuid: '', balance: 'An error occured please try again' }));
     }
   },
