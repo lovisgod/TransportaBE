@@ -63,7 +63,8 @@ const WalletController = {
       });
       return res.status(200).send(generateSuccessData('Success', createdWallet));
     } catch (e) {
-      console.error(e);
+      console.error(e.message);
+      if (e.message === 'Validation error') return res.status(500).send(generateErrorData('Error', { uuid: '', balance: 'You already have a wallet' }));
       return res.status(500).send(generateErrorData('Error', { uuid: '', balance: 'An error occured please try again' }));
     }
   },
