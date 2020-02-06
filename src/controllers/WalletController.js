@@ -133,7 +133,6 @@ const WalletController = {
         attributes: { exclude: ['refrence_id', 'createdAt', 'updatedAt', 'uuid', 'user_uuid'] },
       });
       if (!wallet) return res.status(404).send(generateErrorData('Error', 'Wallet not found for this user'));
-      console.log(wallet);
       if (wallet.balance <= 50) return res.status(500).send(generateErrorData('Error', 'Low balance please load your wallet and try again'));
       const resultingBalance = await parseInt(wallet.balance, 10) - parseInt(price, 10);
       if (resultingBalance < 0) return res.status(500).send(generateErrorData('Error', 'Low balance please load your wallet and try again'));
@@ -143,15 +142,12 @@ const WalletController = {
         amount: price,
         customer_name: name,
       };
-      console.log('it got here33');
       await Wallet.update(
         { balance: resultingBalance },
         { where: { user_uuid: uuid } },
       );
-      console.log('it got here22');
       await Transaction_history.create(new_transaction);
-      console.log('it got here');
-      return res.status(200).send(generateSuccessMessage('Success', 'ride charged successfully'));
+      return res.status(200).send(generateSuccessMessage('success', 'ride charged successfully'));
     } catch (e) {
       console.log(e);
       return res.status(500).send(generateErrorMessage('Error', e.message));
