@@ -149,7 +149,7 @@ const WalletController = {
       await Transaction_history.create(new_transaction);
       return res.status(200).send(generateSuccessMessage('Success', 'ride charged successfully'));
     } catch (e) {
-      console.log(e.message);
+      console.log(e);
       return res.status(500).send(generateErrorMessage('Error', e.message));
     }
   },
