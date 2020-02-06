@@ -121,6 +121,7 @@ const RideController = {
     try {
       const { ride_uuid } = req.query;
       const { role } = req.userData;
+      console.log(role);
       if (!role === 'user') return res.status(403).send(generateErrorMessage('Error', 'you cannot access this'));
       await Ride.update(
         { status: 'completed' },
