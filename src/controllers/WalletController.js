@@ -8,7 +8,7 @@ const {
   getBanks, verifyAccount, createRecipient, tokenize, charge,
 } = require('../utils/paystackHelper');
 
-const { Wallet } = model;
+const { Wallet, Transaction_history } = model;
 
 const WalletController = {
   async listBanks(req, res) {
@@ -125,8 +125,9 @@ const WalletController = {
 
   async chargeRide(req, res) {
     try {
-      const { price } = req.body;
-      const { uuid } = req.userData;
+      let new_transaction;
+      const { price, ride_uuid } = req.body;
+      const { uuid, name } = req.userData;
       const wallet = await Wallet.findOne({
         where: { user_uuid: uuid },
         attributes: { exclude: ['refrence_id', 'createdAt', 'updatedAt', 'uuid', 'user_uuid'] },
@@ -135,10 +136,17 @@ const WalletController = {
       if (wallet.balance <= 50) return res.status(500).send(generateErrorData('Error', 'Low balance please load your wallet and try again'));
       const resultingBalance = await parseInt(wallet.balance, 10) - parseInt(price, 10);
       if (resultingBalance < 0) return res.status(500).send(generateErrorData('Error', 'Low balance please load your wallet and try again'));
+      new_transaction = {
+        user_uuid: uuid,
+        ride_uuid,
+        amount: price,
+        customer_name: name,
+      };
       await Wallet.update(
         { balance: resultingBalance },
         { where: { user_uuid: uuid } },
       );
+      await Transaction_history.create(new_transaction);
       return res.status(200).send(generateSuccessMessage('Success', 'ride charged successfully'));
     } catch (e) {
       console.log(e.message);
