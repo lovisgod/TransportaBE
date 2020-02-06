@@ -117,6 +117,24 @@ const RideController = {
       return res.status(500).send(generateErrorData('Error', 'Error while getting route between locations'));
     }
   },
+  async completeRide(req, res) {
+    try {
+      const { ride_uuid } = req.query;
+      const { role } = req.userData;
+      if (!role === 'user') return res.status(403).send(generateErrorMessage('Error', 'you cannot access this'));
+      await Ride.update(
+        { status: 'completed' },
+        {
+          returning: true,
+          where: { uuid: ride_uuid },
+        },
+      );
+      return res.status(200).send(generateSuccessMessage('success', 'Thank you for choosing Transporta'));
+    } catch (e) {
+      console.log(e);
+      return res.status(500).send(generateErrorMessage('Error', 'Error while updating ride'));
+    }
+  },
 };
 
 export default RideController;
