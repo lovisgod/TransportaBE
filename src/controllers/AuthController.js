@@ -37,6 +37,7 @@ const AuthController = {
       };
       const error = validate(schema);
       if (error) {
+        console.log(error);
         return res.status(409).send(generateErrorMessage('Error', error));
       }
       const user = await User.findOne({ where: { email } });
