@@ -64,7 +64,7 @@ const AuthController = {
         numbertoken: randomNumberGen(),
       });
       await SendMail(email, userToken, newUser.uuid);
-      return res.status(200).send(generateSuccessMessage('success', 'Kindly verify account to login'));
+      return res.status(200).send(generateSuccessMessage('success', 'Kindly check your email and verify account to login'));
     } catch (e) {
       return next(e);
     }
