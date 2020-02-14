@@ -45,7 +45,7 @@ const AuthController = {
       }
 
       const userName = await User.findOne({ where: { username } });
-      if (userName) return res.status(409).send(generateErrorMessage('Error', 'User already exist'));
+      if (userName) return res.status(409).send(generateErrorMessage('success', 'User already exist'));
 
       const encryptedPassword = hashPassword(password);
       const newUser = await User.create({
@@ -73,11 +73,10 @@ const AuthController = {
     const { email, username, password } = req.body;
     const schema = {
       username: email ? inValidInput(email) : inValidEmail(username),
-      password: inValidPassword(password),
     };
     const error = validate(schema);
     if (error) {
-      return res.status(409).send(generateErrorMessage('Error', error));
+      return res.status(200).send(generateErrorMessage('Error', error));
     }
     try {
       const user = email
