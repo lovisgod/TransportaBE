@@ -31,6 +31,7 @@ const AuthController = {
         username: inValidInput(username),
         email: inValidEmail(email),
         name: inValidInput(name),
+        password: inValidPassword(password),
         phone: inValidInput(phone),
         role: inValidInput(role),
       };
