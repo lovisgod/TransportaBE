@@ -37,15 +37,15 @@ const AuthController = {
       const error = validate(schema);
       if (error) {
         console.log(error);
-        return res.status(409).send(generateErrorMessage('Error', error));
+        return res.status(200).send(generateErrorMessage('Error', error));
       }
       const user = await User.findOne({ where: { email } });
       if (user) {
-        return res.status(409).send(generateErrorMessage('Error', 'User already exist'));
+        return res.status(200).send(generateErrorMessage('Error', 'User already exist'));
       }
 
       const userName = await User.findOne({ where: { username } });
-      if (userName) return res.status(409).send(generateErrorMessage('success', 'User already exist'));
+      if (userName) return res.status(200).send(generateErrorMessage('success', 'User already exist'));
 
       const encryptedPassword = hashPassword(password);
       const newUser = await User.create({
@@ -82,13 +82,13 @@ const AuthController = {
       const user = email
         ? await User.findOne({ where: { email } })
         : await User.findOne({ where: { username } });
-      if (!user) return res.status(404).send(generateErrorMessage('Error', 'User not found'));
+      if (!user) return res.status(200).send(generateErrorMessage('Error', 'User not found'));
       const checkPassword = comparePassword(password, user.dataValues.password);
       if (!checkPassword) {
         return res.status(200).send(generateErrorData('Error', 'Details incorect'));
       }
       if (!user.dataValues.verified) {
-        return res.status(401).send(generateErrorMessage('Error', 'Verify your account'));
+        return res.status(200).send(generateErrorMessage('Error', 'Verify your account'));
       }
       return res.status(200).send(generateSuccessData('success', createToken({ user: user.dataValues })));
     } catch (e) {
