@@ -30,7 +30,6 @@ const AuthController = {
       const schema = {
         username: inValidInput(username),
         email: inValidEmail(email),
-        password: inValidPassword(password),
         name: inValidInput(name),
         phone: inValidInput(phone),
         role: inValidInput(role),
