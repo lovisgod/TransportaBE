@@ -82,13 +82,13 @@ const AuthController = {
       const user = email
         ? await User.findOne({ where: { email } })
         : await User.findOne({ where: { username } });
-      if (!user) return res.status(200).send(generateErrorMessage('Error', 'User not found'));
+      if (!user) return res.status(200).send(generateErrorData('Error', 'User not found'));
       const checkPassword = comparePassword(password, user.dataValues.password);
       if (!checkPassword) {
         return res.status(200).send(generateErrorData('Error', 'Details incorect'));
       }
       if (!user.dataValues.verified) {
-        return res.status(200).send(generateErrorMessage('Error', 'Verify your account'));
+        return res.status(200).send(generateErrorData('Error', 'Verify your account'));
       }
       return res.status(200).send(generateSuccessData('success', createToken({ user: user.dataValues })));
     } catch (e) {
