@@ -85,7 +85,7 @@ const AuthController = {
       if (!user) return res.status(404).send(generateErrorMessage('Error', 'User not found'));
       const checkPassword = comparePassword(password, user.dataValues.password);
       if (!checkPassword) {
-        return res.status(400).send(generateErrorData('Error', 'Details incorect'));
+        return res.status(200).send(generateErrorData('Error', 'Details incorect'));
       }
       if (!user.dataValues.verified) {
         return res.status(401).send(generateErrorMessage('Error', 'Verify your account'));
