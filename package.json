@@ -1,0 +1,36 @@
+{
+  "name": "transporta",
+  "version": "1.0.0",
+  "description": "Book ride and get your packages delivered to you",
+  "main": "dist/app.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc && node dist/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ayooluwa Olosunde",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/bluebird": "^3.5.33",
+    "@types/express": "^4.17.9",
+    "@types/node": "^14.14.14",
+    "@types/sequelize": "^4.28.9",
+    "@types/validator": "^13.1.1",
+    "sqlite3": "^5.0.0",
+    "ts-node": "^9.1.1",
+    "tslint": "^5.12.1",
+    "typescript": "^3.9.7"
+  },
+  "dependencies": {
+    "@types/bcrypt": "^3.0.0",
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.5.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^6.3.5",
+    "sequelize-cli": "^6.2.0",
+    "sqlite": "^4.0.18"
+  }
+}

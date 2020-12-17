@@ -1,0 +1,1 @@
+{"version":3,"file":"UserDataSource.js","sourceRoot":"","sources":["../../src/data/UserDataSource.ts"],"names":[],"mappings":";;;AACA,qDAA4C;AAE5C,MAAa,cAAe,SAAQ,iBAAI;IAEpC,MAAM,CAAC,SAAS;QACZ,OAAO,IAAI,CAAC,OAAO,CAAQ,EAAE,CAAC,CAAA;IAClC,CAAC;IAED,MAAM,CAAC,UAAU,CAAC,IAAmB;QACjC,OAAO,IAAI,CAAC,MAAM,CAAO,IAAI,CAAC,CAAA;IAClC,CAAC;CACJ;AATD,wCASC"}
