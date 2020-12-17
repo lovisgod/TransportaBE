@@ -10,5 +10,6 @@ export class Routes {
     app.route("/users").get(this.authController.listUsers);
     app.route("/create-user").post(this.authController.createUser);
     app.route("/login").post(this.authController.login);
+    app.route("/profile").get(this.authController.getUserProfile);
   }
 }

@@ -104,5 +104,23 @@ login = async (req: Request, res: Response) => {
     
   }
 }
+
+getUserProfile = async (req: Request, res: Response) => {
+  try {
+    if (req.body.userData != null) {
+      return res.status(200).send({
+        success: true,
+        message: "Login successful",
+        data: req.body.userData
+      })
+    }
+  } catch (error) {
+    return res.status(500).send({
+      success: false,
+      message: "Internal server error",
+      data: null
+  })
+  }
+}
   
 }
