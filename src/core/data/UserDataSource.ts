@@ -18,7 +18,7 @@ export class UserDataSource extends User {
         return this.create<User>(user)
     }
 
-    static getAUserbyEmail(email: string, password?:string) {
+    static getAUserbyEmail(email: string, password?:string, authCheck?: boolean) {
 
         if (password) {
             return this.findOne<User> ({
@@ -26,6 +26,15 @@ export class UserDataSource extends User {
                     email,
                     password
                 },
+            })
+        } else if (authCheck) {
+            return this.findOne<User> ({
+                where : {
+                    email
+                },
+                attributes : {
+                    exclude: ["password"]
+                }
             })
         } else {
             return this.findOne<User> ({

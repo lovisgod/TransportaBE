@@ -8,70 +8,49 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthController = void 0;
 const UserDataSource_1 = require("../../core/data/UserDataSource");
 const passwordHash_1 = require("../../config/passwordHash");
 const tokenProccessor_1 = require("../../config/tokenProccessor");
+const GeneralError_1 = __importDefault(require("../../api/errorHandlers/GeneralError"));
+const generalRespose_1 = require("../responses/generalRespose");
 class AuthController {
     constructor() {
-        this.listUsers = (req, res) => __awaiter(this, void 0, void 0, function* () {
+        this.listUsers = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const users = yield UserDataSource_1.UserDataSource.listUsers();
-                return res.send({
-                    success: true,
-                    message: "Successful",
-                    data: users
-                });
+                return new generalRespose_1.GeneralReponse().sendSuccessResponse(res, 200, { data: users });
             }
             catch (error) {
-                return res.status(500).send({
-                    success: false,
-                    message: error,
-                    data: null
-                });
+                next(error);
             }
         });
-        this.createUser = (req, res) => __awaiter(this, void 0, void 0, function* () {
+        this.createUser = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const password = new passwordHash_1.PasswordHasher().hashPassword(req.body.password);
                 const body = req.body;
                 body.password = password;
                 const existed = yield UserDataSource_1.UserDataSource.getAUserbyEmail(body.email);
                 if (existed) {
-                    return res.status(409).send({
-                        success: false,
-                        message: "User already exist",
-                        data: null
-                    });
+                    throw new GeneralError_1.default("not exist", 409, true, "User already exist");
                 }
                 yield UserDataSource_1.UserDataSource.createUser(body);
-                return res.status(200).send({
-                    success: true,
-                    message: "Account created successfully",
-                    data: null
-                });
+                return new generalRespose_1.GeneralReponse().sendSuccessResponse(res, 200, null);
             }
             catch (error) {
-                console.log(error);
-                console.log(error.message);
-                return res.status(500).send({
-                    success: false,
-                    message: "Internal server error",
-                    data: null
-                });
+                next(error);
             }
         });
-        this.login = (req, res) => __awaiter(this, void 0, void 0, function* () {
+        this.login = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const body = req.body;
                 const existed = yield UserDataSource_1.UserDataSource.getAUserbyEmail(body.email);
                 if (!existed) {
-                    return res.status(404).send({
-                        success: false,
-                        message: "User not found!!!",
-                        data: null
-                    });
+                    throw new GeneralError_1.default("not found", 404, true, "User not found!!");
                 }
                 const passwordMatch = yield new passwordHash_1.PasswordHasher().comparePassword(body.password, existed.password);
                 if (passwordMatch) {
@@ -80,30 +59,27 @@ class AuthController {
                         email: existed.email,
                         phone: existed.phone
                     });
-                    return res.status(200).send({
-                        success: true,
-                        message: "Login successful",
-                        data: {
-                            token
-                        }
-                    });
+                    return new generalRespose_1.GeneralReponse().sendSuccessResponse(res, 200, { token });
                 }
                 else {
-                    return res.status(404).send({
-                        success: false,
-                        message: "Password does not match!!!",
-                        data: null
-                    });
+                    throw new GeneralError_1.default("error", 404, true, "Password does not match!!!");
                 }
             }
             catch (error) {
-                console.log(error);
-                console.log(error.message);
-                return res.status(500).send({
-                    success: false,
-                    message: "Internal server error",
-                    data: null
-                });
+                next(error);
+            }
+        });
+        this.getUserProfile = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
+            try {
+                if (req.body.userData != null) {
+                    return new generalRespose_1.GeneralReponse().sendSuccessResponse(res, 200, { data: req.body.userData });
+                }
+                else {
+                    throw new GeneralError_1.default("error", 404, true, "User not found!!!");
+                }
+            }
+            catch (error) {
+                next(error);
             }
         });
     }

@@ -1,0 +1,1 @@
+{"version":3,"file":"GeneralError.js","sourceRoot":"","sources":["../../../src/api/errorHandlers/GeneralError.ts"],"names":[],"mappings":";;;;;AAAA,sCAAsC;AACtC,2CAA2C;AAC3C,kEAAuC;AAEvC;;;GAGG;AACH,MAAM,YAAa,SAAQ,sBAAS;IAElC;;;;;;;OAOG;IACH,YAAY,IAAI,EAAE,QAAQ,EAAE,aAAa,EAAE,WAAW;QACpD,KAAK,CAAC,IAAI,EAAE,QAAQ,EAAE,aAAa,EAAE,WAAW,CAAC,CAAC;IACpD,CAAC;CACF;AAED,kBAAe,YAAY,CAAC"}

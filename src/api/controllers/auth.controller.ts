@@ -1,8 +1,10 @@
 import { UserDataSource } from "../../core/data/UserDataSource";
 import { UserInterface } from "../../core/domain/User";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { PasswordHasher } from "../../config/passwordHash";
 import { TokenProccessor } from "../../config/tokenProccessor";
+import GeneralError from "../../api/errorHandlers/GeneralError";
+import { GeneralReponse } from "../responses/generalRespose";
 
 export class AuthController {
   public index(req: Request, res: Response) {
@@ -11,65 +13,37 @@ export class AuthController {
     });
   }
 
-  listUsers = async (req: Request, res: Response) => {
+  listUsers = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const users  = await UserDataSource.listUsers();
-        return res.send({
-            success: true,
-            message: "Successful",
-            data: users
-        });    
+        return new GeneralReponse().sendSuccessResponse(res, 200, { data: users}) 
       } catch (error) {
-        return res.status(500).send({
-            success: false,
-            message: error,
-            data: null
-        })
-        
+        next(error);
       }       
   }
 
-  createUser = async (req: Request, res: Response) => {
+  createUser = async (req: Request, res: Response, next) => {
     try {
       const password = new PasswordHasher().hashPassword(req.body.password);
       const body: UserInterface = req.body;
       body.password = password;
       const existed = await UserDataSource.getAUserbyEmail(body.email);
       if (existed){
-        return res.status(409).send({
-          success: false,
-          message: "User already exist",
-          data: null
-        })
+         throw new GeneralError("not exist", 409, true, "User already exist")
       } 
       await UserDataSource.createUser(body);
-      return res.status(200).send({
-        success: true,
-        message: "Account created successfully",
-        data: null
-      }) 
+      return new GeneralReponse().sendSuccessResponse(res, 200, null)
     } catch (error) {
-      console.log(error);
-      console.log(error.message);
-      return res.status(500).send({
-          success: false,
-          message: "Internal server error",
-          data: null
-      })
-      
+      next(error)
     }
 }
 
-login = async (req: Request, res: Response) => {
+login = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const body: UserInterface = req.body;
     const existed = await UserDataSource.getAUserbyEmail(body.email);
     if (!existed){
-      return res.status(404).send({
-        success: false,
-        message: "User not found!!!",
-        data: null
-      })
+      throw new GeneralError("not found", 404, true, "User not found!!");
     } 
     const passwordMatch = await new PasswordHasher().comparePassword(body.password, existed.password)
 
@@ -79,47 +53,24 @@ login = async (req: Request, res: Response) => {
         email: existed.email,
         phone: existed.phone
       })
-      return res.status(200).send({
-        success: true,
-        message: "Login successful",
-        data: {
-          token
-        }
-      }) 
+      return new GeneralReponse().sendSuccessResponse(res, 200, {token})
     } else {
-      return res.status(404).send({
-        success: false,
-        message: "Password does not match!!!",
-        data: null
-      })
+      throw new GeneralError("error", 404, true, "Password does not match!!!");
     }
   } catch (error) {
-    console.log(error);
-    console.log(error.message);
-    return res.status(500).send({
-        success: false,
-        message: "Internal server error",
-        data: null
-    })
-    
+    next(error)
   }
 }
 
-getUserProfile = async (req: Request, res: Response) => {
+getUserProfile = async (req: Request, res: Response, next: NextFunction) => {
   try {
     if (req.body.userData != null) {
-      return res.status(200).send({
-        success: true,
-        message: "Login successful",
-        data: req.body.userData
-      })
+      return new GeneralReponse().sendSuccessResponse(res, 200, { data: req.body.userData });
+    } else {
+      throw new GeneralError("error", 404, true, "User not found!!!");
     }
   } catch (error) {
-    return res.status(500).send({
-      success: false,
-      message: "Internal server error",
-      data: null
-  })
+   next(error)
   }
 }
   

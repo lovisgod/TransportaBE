@@ -16,13 +16,23 @@ class UserDataSource extends user_model_1.User {
     static createUser(user) {
         return this.create(user);
     }
-    static getAUserbyEmail(email, password) {
+    static getAUserbyEmail(email, password, authCheck) {
         if (password) {
             return this.findOne({
                 where: {
                     email,
                     password
                 },
+            });
+        }
+        else if (authCheck) {
+            return this.findOne({
+                where: {
+                    email
+                },
+                attributes: {
+                    exclude: ["password"]
+                }
             });
         }
         else {

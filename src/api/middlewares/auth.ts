@@ -15,7 +15,7 @@ export class AuthChecker {
       }
       const token = req.headers.authorization.split(' ')[1] || req.headers.authorization;
     const {email} = new TokenProccessor().verifyToken(token);
-      const user = await UserDataSource.getAUserbyEmail(email);
+      const user = await UserDataSource.getAUserbyEmail(email, null, true);
       if (!user) {return res.status(404).send({
         success: false,
         message: "user does not exist",
