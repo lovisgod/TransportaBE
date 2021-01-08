@@ -26,6 +26,7 @@ export class AuthController {
     try {
       const password = new PasswordHasher().hashPassword(req.body.password);
       const body: UserInterface = req.body;
+      console.log(body.documents)
       body.password = password;
       const existed = await UserDataSource.getAUserbyEmail(body.email);
       if (existed){
