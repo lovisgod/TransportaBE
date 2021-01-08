@@ -42,7 +42,6 @@ User.init(
       location: {
         type: new DataTypes.STRING(),
         allowNull: true,
-        unique: true
         },
       password: {
         type: DataTypes.STRING,
