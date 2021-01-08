@@ -56,6 +56,6 @@ User.init(
     }
   );
   
-  User.sync({ force: true }).then(() => console.log("User table created"));
+  User.sync({ force: false }).then(() => console.log("User table created"));
 
 
