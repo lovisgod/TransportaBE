@@ -7,5 +7,5 @@ export const database = new Sequelize({
    host: "ec2-18-235-107-171.compute-1.amazonaws.com",
    port: 5432,
    dialect: "postgres",
-   ssl: false
+   ssl: true
 });
