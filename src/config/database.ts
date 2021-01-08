@@ -1,7 +1,7 @@
 import { Sequelize } from "sequelize";
 
 export const database = new Sequelize({
-  database: "transporta_db",
+  database: "wellness_db",
   dialect: "sqlite",
   storage: ":memory:",
 });

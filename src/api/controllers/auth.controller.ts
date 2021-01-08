@@ -51,7 +51,7 @@ login = async (req: Request, res: Response, next: NextFunction) => {
       const token = new TokenProccessor().createToken({
         name: existed.name,
         email: existed.email,
-        phone: existed.phone
+        role: existed.role,
       })
       return new GeneralReponse().sendSuccessResponse(res, 200, {token})
     } else {

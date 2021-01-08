@@ -5,7 +5,9 @@ export class User extends Model {
   public id!: any;
   public name!: string;
   public email!: string;
-  public phone!: string;
+  public role!: string;
+  public documents: Array<string>;
+  public location: string;
   public password!: string;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -27,11 +29,21 @@ User.init(
           allowNull: false,
           unique: true
       },
-      phone: {
-         type: new DataTypes.STRING(14),
-         allowNull: false,
-         unique: true 
+      role: {
+        type: new DataTypes.STRING(30),
+        allowNull: false,
+        unique: true
       },
+      documents: {
+      type: new DataTypes.ARRAY(DataTypes.STRING),
+      allowNull: true,
+      unique: true
+      },
+      location: {
+        type: new DataTypes.STRING(),
+        allowNull: true,
+        unique: true
+        },
       password: {
         type: DataTypes.STRING,
         allowNull: false,
