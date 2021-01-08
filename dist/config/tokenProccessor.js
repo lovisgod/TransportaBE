@@ -12,7 +12,7 @@ class TokenProccessor {
          * @param {object} payload
          * @returns {string} token
          */
-        this.createToken = payload => jsonwebtoken_1.default.sign(payload, 'transaporta1234567890', {
+        this.createToken = payload => jsonwebtoken_1.default.sign(payload, 'wellneess1234567890245466566', {
             expiresIn: '24h',
         });
         /**
@@ -20,7 +20,7 @@ class TokenProccessor {
          * @param {string} token
          * @returns {object} verifiedToken
          */
-        this.verifyToken = token => jsonwebtoken_1.default.verify(token, 'transaporta1234567890', {
+        this.verifyToken = token => jsonwebtoken_1.default.verify(token, 'wellneess1234567890245466566', {
             expiresIn: '24h',
         });
     }

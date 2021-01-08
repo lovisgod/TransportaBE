@@ -21,10 +21,19 @@ User.init({
         allowNull: false,
         unique: true
     },
-    phone: {
-        type: new sequelize_1.DataTypes.STRING(14),
+    role: {
+        type: new sequelize_1.DataTypes.STRING(30),
         allowNull: false,
         unique: true
+    },
+    documents: {
+        type: new sequelize_1.DataTypes.ARRAY(sequelize_1.DataTypes.STRING),
+        allowNull: true,
+        unique: true
+    },
+    location: {
+        type: new sequelize_1.DataTypes.STRING(),
+        allowNull: true,
     },
     password: {
         type: sequelize_1.DataTypes.STRING,
@@ -35,5 +44,5 @@ User.init({
     tableName: "users",
     sequelize: database_1.database,
 });
-User.sync({ force: true }).then(() => console.log("User table created"));
+User.sync({ force: false }).then(() => console.log("User table created"));
 //# sourceMappingURL=user.model.js.map

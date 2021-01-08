@@ -37,9 +37,8 @@ app_1.default.use((err, req, res, next) => __awaiter(void 0, void 0, void 0, fun
         }
     }
     else {
-        console.log("hereh erehre");
         next(err);
     }
 }));
-app_1.default.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));
+app_1.default.listen(PORT, () => console.log(`wellness app listening on port ${PORT}!`));
 //# sourceMappingURL=server.js.map

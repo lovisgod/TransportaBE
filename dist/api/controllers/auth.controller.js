@@ -23,7 +23,7 @@ class AuthController {
         this.listUsers = (req, res, next) => __awaiter(this, void 0, void 0, function* () {
             try {
                 const users = yield UserDataSource_1.UserDataSource.listUsers();
-                return new generalRespose_1.GeneralReponse().sendSuccessResponse(res, 200, { data: users });
+                return new generalRespose_1.GeneralReponse().sendSuccessResponse(res, 200, { users });
             }
             catch (error) {
                 next(error);
@@ -39,9 +39,10 @@ class AuthController {
                     throw new GeneralError_1.default("not exist", 409, true, "User already exist");
                 }
                 yield UserDataSource_1.UserDataSource.createUser(body);
-                return new generalRespose_1.GeneralReponse().sendSuccessResponse(res, 200, null);
+                return new generalRespose_1.GeneralReponse().sendSuccessResponse(res, 200, { message: "sign up successful" });
             }
             catch (error) {
+                console.log(error);
                 next(error);
             }
         });
@@ -57,7 +58,7 @@ class AuthController {
                     const token = new tokenProccessor_1.TokenProccessor().createToken({
                         name: existed.name,
                         email: existed.email,
-                        phone: existed.phone
+                        role: existed.role,
                     });
                     return new generalRespose_1.GeneralReponse().sendSuccessResponse(res, 200, { token });
                 }
@@ -85,7 +86,7 @@ class AuthController {
     }
     index(req, res) {
         res.json({
-            message: "Hello user welcome to transporta api",
+            message: "Hello user welcome to wellness api",
         });
     }
 }
