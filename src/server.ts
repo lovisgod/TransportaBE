@@ -26,9 +26,8 @@ if (ErrorHandler.isTrustedError(err)) {
   new GeneralReponse().sendErrorResponse(res,   500, err.message);
 }
 } else {
-console.log("hereh erehre")  
 next(err);
 }
 });
 
-app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));
+app.listen(PORT, () => console.log(`wellness app listening on port ${PORT}!`));

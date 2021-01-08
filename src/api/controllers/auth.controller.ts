@@ -9,7 +9,7 @@ import { GeneralReponse } from "../responses/generalRespose";
 export class AuthController {
   public index(req: Request, res: Response) {
     res.json({
-      message: "Hello user welcome to transporta api",
+      message: "Hello user welcome to wellness api",
     });
   }
 
@@ -30,10 +30,11 @@ export class AuthController {
       const existed = await UserDataSource.getAUserbyEmail(body.email);
       if (existed){
          throw new GeneralError("not exist", 409, true, "User already exist")
-      } 
+      }
       await UserDataSource.createUser(body);
       return new GeneralReponse().sendSuccessResponse(res, 200, {message: "sign up successful"})
     } catch (error) {
+      console.log(error)
       next(error)
     }
 }
