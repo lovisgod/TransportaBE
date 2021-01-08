@@ -16,7 +16,7 @@ export class AuthController {
   listUsers = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const users  = await UserDataSource.listUsers();
-        return new GeneralReponse().sendSuccessResponse(res, 200, { data: users}) 
+        return new GeneralReponse().sendSuccessResponse(res, 200, { users }) 
       } catch (error) {
         next(error);
       }       
