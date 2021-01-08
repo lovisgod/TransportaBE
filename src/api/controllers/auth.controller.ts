@@ -32,7 +32,7 @@ export class AuthController {
          throw new GeneralError("not exist", 409, true, "User already exist")
       } 
       await UserDataSource.createUser(body);
-      return new GeneralReponse().sendSuccessResponse(res, 200, null)
+      return new GeneralReponse().sendSuccessResponse(res, 200, {message: "sign up successful"})
     } catch (error) {
       next(error)
     }
